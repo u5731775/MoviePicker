@@ -1,0 +1,251 @@
+[
+    {
+        "title": "Cars",
+        "genre": "Animation",
+        "runtime": 117,
+        "year": 2006,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Cars 2",
+        "genre": "Animation",
+        "runtime": 106,
+        "year": 2011,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Interstellar",
+        "genre": "Sci-Fi",
+        "runtime": 169,
+        "year": 2014,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "My Fault: London",
+        "genre": "Romance",
+        "runtime": 119,
+        "year": 2025,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Purple Hearts",
+        "genre": "Romance",
+        "runtime": 122,
+        "year": 2022,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Back to the Future",
+        "genre": "Sci-Fi",
+        "runtime": 116,
+        "year": 1985,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Hunger Games: Catching Fire",
+        "genre": "Action",
+        "runtime": 146,
+        "year": 2013,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Star Wars: Episode IV - A New Hope",
+        "genre": "Sci-Fi",
+        "runtime": 121,
+        "year": 1977,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Mamma Mia!",
+        "genre": "Musical",
+        "runtime": 108,
+        "year": 2008,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Tag",
+        "genre": "Comedy",
+        "runtime": 100,
+        "year": 2018,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Greatest Days",
+        "genre": "Musical",
+        "runtime": 112,
+        "year": 2023,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Spider-Man",
+        "genre": "Superhero",
+        "runtime": 121,
+        "year": 2002,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Spider-Man 2",
+        "genre": "Superhero",
+        "runtime": 127,
+        "year": 2004,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Spider-Man 3",
+        "genre": "Superhero",
+        "runtime": 139,
+        "year": 2007,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Amazing Spider-Man",
+        "genre": "Superhero",
+        "runtime": 136,
+        "year": 2012,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Amazing Spider-Man 2",
+        "genre": "Superhero",
+        "runtime": 142,
+        "year": 2014,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Spider-Man: Homecoming",
+        "genre": "Superhero",
+        "runtime": 133,
+        "year": 2017,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Spider-Man: Far From Home",
+        "genre": "Superhero",
+        "runtime": 129,
+        "year": 2019,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Spider-Man: No Way Home",
+        "genre": "Superhero",
+        "runtime": 148,
+        "year": 2021,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Rogue One: A Star Wars Story",
+        "genre": "Sci-Fi",
+        "runtime": 133,
+        "year": 2016,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Lego Movie",
+        "genre": "Animation",
+        "runtime": 100,
+        "year": 2014,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Lego Batman Movie",
+        "genre": "Animation",
+        "runtime": 104,
+        "year": 2017,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Dune",
+        "genre": "Sci-Fi",
+        "runtime": 155,
+        "year": 2021,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Truman Show",
+        "genre": "Drama",
+        "runtime": 103,
+        "year": 1998,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "The Dark Knight",
+        "genre": "Superhero",
+        "runtime": 152,
+        "year": 2008,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Kung Fu Panda",
+        "genre": "Animation",
+        "runtime": 92,
+        "year": 2008,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Kung Fu Panda 2",
+        "genre": "Animation",
+        "runtime": 90,
+        "year": 2011,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Kung Fu Panda 3",
+        "genre": "Animation",
+        "runtime": 95,
+        "year": 2016,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Ford v Ferrari",
+        "genre": "Drama",
+        "runtime": 152,
+        "year": 2019,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "F1: The Movie",
+        "genre": "Sport",
+        "runtime": 156,
+        "year": 2025,
+        "watched": false,
+        "rating": null
+    },
+    {
+        "title": "Cars 3",
+        "genre": "Animation",
+        "runtime": 102,
+        "year": 2017,
+        "imdb_rating": 6.7,
+        "watched": false,
+        "rating": null
+    }
+]
