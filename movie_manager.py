@@ -1,8 +1,5 @@
-from menu import display_menu
-from picker import pick_random_movie
 from storage import load_movies, save_movies
 from movie import create_movie
-from stats import show_stats
 from movie_api import get_movie_data
 
 def add_movie(movies):
