@@ -1,6 +1,5 @@
 import requests
-
-API_KEY = "1463004c"
+from config import API_KEY
 
 
 def get_movie_data(title):
