@@ -126,7 +126,7 @@ with tab_library:
                     f"""
                     <div style="
                         width: 100%;
-                        height: 380px; 
+                        height: 600px; 
                         overflow: hidden;
                         border-radius: 10px;
                         margin-bottom: 10px;
