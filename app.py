@@ -51,7 +51,7 @@ tab_picker, tab_library, tab_add, tab_stats = st.tabs([
 # --- TAB 1: THE ULTIMATE MOVIE PICKER (Now with Filters & Rerolls!) ---
 with tab_picker:
     st.header("🎲 Tonight's Movie Roulette")
-    st.write("Set your filters and let the movie gods decide your fate.")
+    st.write("Set your filters and let the app decide your fate.")
 
     # 1. Roulette Filters
     with st.expander("🛠️ Spin Filters (Optional)", expanded=True):
