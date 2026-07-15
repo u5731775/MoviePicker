@@ -97,7 +97,7 @@ with tab_picker:
                         st.session_state.movies = movies
                         st.rerun()
 
-# --- TAB 2: VISUAL LIBRARY (Optimized for Mobile & Desktop!) ---
+# --- TAB 2: VISUAL LIBRARY (With Standardized Poster Heights) ---
 with tab_library:
     st.header("📚 Your Collection")
 
@@ -109,113 +109,78 @@ with tab_library:
     if not filtered_movies:
         st.info("No movies found in your library.")
     else:
-        # Inject CSS to create a truly responsive grid
-        st.markdown(
-            """
-            <style>
-            /* The Grid Container */
-            .movie-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 16px;
-                width: 100%;
-            }
-            /* Individual Movie Card */
-            .movie-card {
-                background-color: #1e1e1e;
-                border-radius: 12px;
-                padding: 10px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            }
-            /* Poster Container */
-            .poster-container {
-                width: 100%;
-                aspect-ratio: 2 / 3; /* Perfect cinema aspect ratio */
-                overflow: hidden;
-                border-radius: 8px;
-                margin-bottom: 8px;
-            }
-            .poster-container img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                object-position: center;
-            }
-            /* Media queries for fine-tuning card heights based on device width */
-            @media (max-width: 600px) {
-                .movie-grid {
-                    grid-template-columns: repeat(2, 1fr); /* Exactly 2 columns on phones */
-                    gap: 10px;
-                }
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-
-        # Start the HTML Grid Container
-        grid_html = '<div class="movie-grid">'
-
-        # We loop and build the structural HTML first
+        # Display as a clean grid of cards (4 columns)
+        cols = st.columns(4)
         for idx, movie in enumerate(filtered_movies):
-            poster = movie.get("poster_url")
-            if not poster or poster == "N/A":
-                poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
+            col = cols[idx % 4]
+            with col:
+                # --- POSTER FIX & STANDARDIZATION ---
+                poster = movie.get("poster_url")
+                if not poster or poster == "N/A":
+                    # Cozy default background image
+                    poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
 
-            watched_status = "✅" if movie.get("watched") else "⏳"
-            rating_text = f"⭐ {movie.get('rating') / 10 if movie.get('rating') else 'Not Rated'}"
+                # Instead of st.image, we render with custom HTML to lock a 2:3 aspect ratio (e.g., 300px width x 450px height)
+                # This ensures absolute grid alignment and crops odd-sized posters flawlessly!
+                st.markdown(
+                    f"""
+                    <div style="
+                        width: 100%;
+                        height: 600px; 
+                        overflow: hidden;
+                        border-radius: 10px;
+                        margin-bottom: 10px;
+                    ">
+                        <img src="{poster}" style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            object-position: center;
+                        "/>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
-            # Append the structured HTML cards
-            grid_html += f"""
-            <div class="movie-card">
-                <div class="poster-container">
-                    <img src="{poster}"/>
-                </div>
-                <div style="font-size: 0.95rem; font-weight: bold; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden;">
-                    {movie['title']}
-                </div>
-                <div style="font-size: 0.8rem; color: #888; margin-bottom: 8px;">
-                    {movie.get('year', 'N/A')} | {watched_status}
-                </div>
-            </div>
-            """
+                # Title & Year
+                watched_status = "✅" if movie.get("watched") else "⏳"
+                st.markdown(f"**{movie['title']}** ({movie.get('year', 'N/A')})")
 
-        grid_html += '</div>'
-        st.markdown(grid_html, unsafe_allow_html=True)
+                # --- INTERACTIVE STAR RATING ---
+                current_rating = movie.get("rating", 0)
 
-        # --- Interactive Action Controls (Rendered below the grid for ease) ---
-        st.markdown("---")
-        st.write("⚙️ **Quick Manager**")
+                try:
+                    initial_stars = int(current_rating // 2) if current_rating else 0
+                except (TypeError, ValueError):
+                    initial_stars = 0
 
-        # Create a dropdown selector to quickly rate or toggle watch status from mobile
-        selected_title = st.selectbox("Select a movie to update:", [m['title'] for m in filtered_movies])
+                new_stars = st.feedback(
+                    "stars",
+                    key=f"stars_{idx}",
+                )
 
-        if selected_title:
-            selected_movie = next(m for m in movies if m['title'] == selected_title)
-
-            col_act1, col_act2 = st.columns(2)
-            with col_act1:
-                # Toggle watched status
-                status_label = "Mark Unwatched ⏳" if selected_movie.get("watched") else "Mark Watched ✅"
-                if st.button(status_label, use_container_width=True):
-                    selected_movie['watched'] = not selected_movie.get('watched', False)
-                    save_movies(movies)
-                    st.session_state.movies = movies
-                    st.rerun()
-
-            with col_act2:
-                # Quick Rating
-                new_stars = st.feedback("stars", key="mobile_stars")
                 if new_stars is not None:
                     calculated_rating = (new_stars + 1) * 2
-                    selected_movie["rating"] = calculated_rating
+                    if movie.get("rating") != calculated_rating:
+                        movie["rating"] = calculated_rating
+                        save_movies(movies)
+                        st.session_state.movies = movies
+                        st.success(f"Rated {movie['title']} a {calculated_rating}/10!")
+                        st.rerun()
+
+                # Show text rating below the stars
+                rating_text = f"⭐ {movie.get('rating', 'Not Rated')}/10" if movie.get('rating') else "⏳ Not Rated yet"
+                st.write(f"{watched_status} | {rating_text}")
+
+                # Quick toggle status button
+                btn_label = "Mark Unwatched" if movie.get("watched") else "Mark Watched"
+                if st.button(btn_label, key=f"toggle_{idx}", use_container_width=True):
+                    movie['watched'] = not movie.get('watched', False)
                     save_movies(movies)
                     st.session_state.movies = movies
-                    st.success(f"Rated {selected_movie['title']} {calculated_rating}/10!")
                     st.rerun()
+
+                st.markdown("---")
 
 # --- TAB 3: ADD MOVIE (Beautiful clean layouts) ---
 with tab_add:
