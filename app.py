@@ -48,56 +48,119 @@ tab_picker, tab_library, tab_add, tab_stats = st.tabs([
     "📈 Fun Stats"
 ])
 
-# --- TAB 1: RANDOM PICKER (Now with suspense & filter options) ---
+# --- TAB 1: THE ULTIMATE MOVIE PICKER (Now with Filters & Rerolls!) ---
 with tab_picker:
-    st.header("🎲 Tonight's Selection")
-    st.write("Can't decide? Let the app choose your fate.")
+    st.header("🎲 Tonight's Movie Roulette")
+    st.write("Set your filters and let the movie gods decide your fate.")
 
-    # Filter options before picking
-    col_f1, col_f2 = st.columns(2)
-    with col_f1:
-        only_unwatched = st.checkbox("Only pick from Unwatched movies", value=True)
+    # 1. Roulette Filters
+    with st.expander("🛠️ Spin Filters (Optional)", expanded=True):
+        col_f1, col_f2, col_f3 = st.columns(3)
 
-    # Filter the pool
-    pool = [m for m in movies if not m.get("watched", False)] if only_unwatched else movies
+        with col_f1:
+            # Filter by Watched Status
+            pool_choice = st.radio("Which movies should we pick from?", ["Unwatched Only 🍿", "Everything 🔄"])
+            only_unwatched = (pool_choice == "Unwatched Only 🍿")
 
-    if st.button("🔥 Pick Tonight's Movie", use_container_width=True):
-        if not pool:
-            st.warning("No movies match your criteria! Try adding some more first.")
-        else:
-            # Create a fun "roulette" suspense effect
-            with st.spinner("Consulting the movie spirits..."):
-                time.sleep(1.5)  # The suspense builds!
+        with col_f2:
+            # Filter by Genre
+            all_genres = sorted(list(set(m.get("genre", "Unknown") for m in movies if m.get("genre"))))
+            selected_genres = st.multiselect("Limit to specific Genres:", all_genres, placeholder="All Genres")
 
-            chosen_movie = pick_random_movie(pool)
+        with col_f3:
+            # Filter by Runtime & Min Rating
+            max_runtime = st.slider("Max Runtime (minutes)", min_value=60, max_value=240, value=240, step=10)
+            min_imdb = st.slider("Minimum IMDb Rating ⭐", min_value=1.0, max_value=10.0, value=1.0, step=0.5)
 
-            if chosen_movie:
+    # Apply filters to build our roulette pool
+    pool = movies
+    if only_unwatched:
+        pool = [m for m in pool if not m.get("watched", False)]
+    if selected_genres:
+        pool = [m for m in pool if m.get("genre") in selected_genres]
+
+    # Filter out by runtime and imdb rating safely
+    pool = [
+        m for m in pool
+        if int(m.get("runtime", 0) or 0) <= max_runtime
+           and float(m.get("imdb_rating", 0.0) or 0.0) >= min_imdb
+    ]
+
+    st.write(f"🎯 Movies matching your filters: **{len(pool)}**")
+
+    # Keep track of the currently picked movie in Session State so rerolling works seamlessly
+    if "current_pick" not in st.session_state:
+        st.session_state.current_pick = None
+
+    col_spin_btn, col_clear_btn = st.columns([3, 1])
+    with col_spin_btn:
+        if st.button("🔥 Spin the Wheel!", use_container_width=True, type="primary"):
+            if not pool:
+                st.error("No movies match your filters! Try widening your search.")
+                st.session_state.current_pick = None
+            else:
+                with st.spinner("Shuffling the deck..."):
+                    time.sleep(1.2)
+                st.session_state.current_pick = pick_random_movie(pool)
                 st.balloons()
-                st.success(f"### 🎉 We are watching: **{chosen_movie['title']}** ({chosen_movie.get('year', 'N/A')})!")
 
-                # Show movie details if we have them
-                col_img, col_det = st.columns([1, 2])
-                with col_img:
-                    # Fallback to a placeholder if no poster URL exists
-                    poster = chosen_movie.get("poster_url") or "https://via.placeholder.com/300x450?text=No+Poster"
-                    st.image(poster, use_container_width=True)
-                with col_det:
-                    st.subheader(chosen_movie['title'])
-                    st.markdown(f"**Genre:** {chosen_movie.get('genre', 'Unknown')}")
-                    st.markdown(f"**Runtime:** {chosen_movie.get('runtime', 'N/A')} mins")
-                    if chosen_movie.get("plot"):
-                        st.write(f"*\"{chosen_movie['plot']}\"*")
+    with col_clear_btn:
+        if st.button("Reset 🔄", use_container_width=True):
+            st.session_state.current_pick = None
+            st.rerun()
 
-                    # Quick action to mark as watched right there!
-                    if st.button("Mark as Watched! ✅"):
-                        for m in movies:
-                            if m['title'] == chosen_movie['title']:
-                                m['watched'] = True
-                        save_movies(movies)
-                        st.session_state.movies = movies
+    # 2. Display Selected Movie
+    if st.session_state.current_pick:
+        chosen_movie = st.session_state.current_pick
+        st.markdown("---")
+
+        col_img, col_det = st.columns([1, 2])
+        with col_img:
+            poster = chosen_movie.get("poster_url")
+            if not poster or poster == "N/A":
+                poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
+            st.image(poster, use_container_width=True)
+
+        with col_det:
+            st.subheader(f"🎉 Tonight's Selection: **{chosen_movie['title']}**")
+            st.write(
+                f"📅 **Year:** {chosen_movie.get('year', 'N/A')} | ⏳ **Runtime:** {chosen_movie.get('runtime', 'N/A')} mins | 🎭 **Genre:** {chosen_movie.get('genre', 'Unknown')}")
+            st.write(f"⭐ **IMDb:** {chosen_movie.get('imdb_rating', 'N/A')}/10")
+
+            if chosen_movie.get("plot"):
+                st.info(f"**Plot Summary:**\n\n*\"{chosen_movie['plot']}\"*")
+
+            # Interactive Picker Actions (Accept vs. Veto!)
+            st.markdown("### Decision Time!")
+            col_act1, col_act2 = st.columns(2)
+
+            with col_act1:
+                # Mark as watched right here!
+                if st.button("✅ Accept & Mark Watched!", use_container_width=True):
+                    for m in movies:
+                        if m['title'] == chosen_movie['title']:
+                            m['watched'] = True
+                    save_movies(movies)
+                    st.session_state.movies = movies
+                    st.session_state.current_pick = None
+                    st.toast(f"Excellent choice! Marked '{chosen_movie['title']}' as watched.")
+                    time.sleep(1)
+                    st.rerun()
+
+            with col_act2:
+                # VETO! Instantly pull a new movie from the pool
+                if st.button("🚫 VETO! Spin Again", use_container_width=True):
+                    # Filter out the vetoed movie so we don't pick it again immediately
+                    vetoed_pool = [m for m in pool if m['title'] != chosen_movie['title']]
+                    if vetoed_pool:
+                        with st.spinner("Finding something better..."):
+                            time.sleep(1)
+                        st.session_state.current_pick = pick_random_movie(vetoed_pool)
                         st.rerun()
+                    else:
+                        st.warning("No other movies left in your filtered pool to spin!")
 
-# --- TAB 2: VISUAL LIBRARY (With 3D Flip Cards for Plots!) ---
+# --- TAB 2: VISUAL LIBRARY (With 3D Flip Cards & Delete Actions!) ---
 with tab_library:
     st.header("📚 Your Collection")
 
@@ -113,14 +176,13 @@ with tab_library:
     if not filtered_movies:
         st.info("No movies found in your library.")
     else:
-        # --- Injecting the Global 3D Flip Card CSS ---
+        # Inject our responsive CSS
         st.markdown(
             """
             <style>
-            /* 3D Card Setup */
             .flip-card {
                 background-color: transparent;
-                perspective: 1000px; /* Gives the 3D depth effect */
+                perspective: 1000px;
             }
             .flip-card-inner {
                 position: relative;
@@ -130,7 +192,6 @@ with tab_library:
                 transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
                 transform-style: preserve-3d;
             }
-            /* Flip trigger: hover on desktop, tap (focus/active) on mobile */
             .flip-card:hover .flip-card-inner, 
             .flip-card:active .flip-card-inner,
             .flip-card:focus .flip-card-inner {
@@ -140,7 +201,7 @@ with tab_library:
                 position: absolute;
                 width: 100%;
                 height: 100%;
-                -webkit-backface-visibility: hidden; /* Hide the reverse side during flip */
+                -webkit-backface-visibility: hidden;
                 backface-visibility: hidden;
                 border-radius: 12px;
                 overflow: hidden;
@@ -151,7 +212,6 @@ with tab_library:
                 object-fit: cover;
                 object-position: center;
             }
-            /* Styling the Back of the Card (Plot View) */
             .flip-card-back {
                 background-color: #1a1a1a;
                 color: #f0f0f0;
@@ -164,8 +224,6 @@ with tab_library:
                 border: 1px solid #333;
                 box-sizing: border-box;
             }
-
-            /* Responsive Grid Configurations */
             .movie-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -195,9 +253,8 @@ with tab_library:
                 plot_snippet = movie.get("plot", "No plot summary available.") or "No plot summary available."
                 imdb = f"⭐ {movie.get('imdb_rating', 'N/A')}" if movie.get('imdb_rating') else "⭐ N/A"
 
-                # Mobile-sized HTML string with flip card logic
                 card_html = (
-                    f'<div class="flip-card" style="width:100%; height:240px;" tabindex="0">'  # tabindex makes tap-to-flip work on phones
+                    f'<div class="flip-card" style="width:100%; height:240px;" tabindex="0">'
                     f'<div class="flip-card-inner">'
                     f'<div class="flip-card-front"><img src="{poster}"/></div>'
                     f'<div class="flip-card-back">'
@@ -213,14 +270,15 @@ with tab_library:
             grid_html = f'<div class="movie-grid">{"".join(cards)}</div>'
             st.write(grid_html, unsafe_allow_html=True)
 
-            # Action Drawer for Phone Mode
+            # Mobile Action Drawer
             st.markdown("---")
             st.subheader("⚙️ Quick Manager")
             selected_title = st.selectbox("Choose a movie to update:", [m['title'] for m in filtered_movies])
 
             if selected_title:
                 selected_movie = next(m for m in movies if m['title'] == selected_title)
-                col_m1, col_m2 = st.columns(2)
+
+                col_m1, col_m2, col_m3 = st.columns([2, 2, 1])
                 with col_m1:
                     m_status = "Mark Unwatched ⏳" if selected_movie.get("watched") else "Mark Watched ✅"
                     if st.button(m_status, key=f"mob_btn_{selected_title}", use_container_width=True):
@@ -235,10 +293,18 @@ with tab_library:
                         selected_movie["rating"] = calc_rate
                         save_movies(movies)
                         st.session_state.movies = movies
-                        st.success(f"Rated {selected_movie['title']} {calc_rate}/10!")
+                        st.rerun()
+                with col_m3:
+                    # Mobile Delete Button
+                    if st.button("🗑️", key=f"mob_del_{selected_title}", use_container_width=True, help="Delete movie"):
+                        movies.remove(selected_movie)
+                        save_movies(movies)
+                        st.session_state.movies = movies
+                        st.toast(f"Removed {selected_movie['title']}!")
+                        time.sleep(0.5)
                         st.rerun()
 
-        # --- ORIGINAL DESKTOP LAYOUT ---
+        # --- ORIGINAL DESKTOP LAYOUT (With sleek Side-by-side Trash Can!) ---
         else:
             cols = st.columns(4)
             for idx, movie in enumerate(filtered_movies):
@@ -251,16 +317,14 @@ with tab_library:
                     plot_snippet = movie.get("plot", "No plot summary available.") or "No plot summary available."
                     imdb = f"⭐ {movie.get('imdb_rating', 'N/A')}" if movie.get('imdb_rating') else "⭐ N/A"
 
-                    # 3D Flip Card Container for Desktop
+                    # 3D Flip Card Container
                     st.markdown(
                         f"""
-                        <div class="flip-card" style="width: 100%; height: 600px;" tabindex="0">
+                        <div class="flip-card" style="width: 100%; height: 380px;" tabindex="0">
                             <div class="flip-card-inner">
-                                <!-- Front Face (Poster) -->
                                 <div class="flip-card-front">
                                     <img src="{poster}"/>
                                 </div>
-                                <!-- Back Face (Plot Details) -->
                                 <div class="flip-card-back">
                                     <div style="font-size: 1.05rem; font-weight: bold; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                                         {movie['title']}
@@ -281,10 +345,10 @@ with tab_library:
                         unsafe_allow_html=True
                     )
 
-                    # Desktop Controls (rendered safely below the 3D card)
                     watched_status = "✅" if movie.get("watched") else "⏳"
                     st.markdown(f"**{movie['title']}** ({movie.get('year', 'N/A')})")
 
+                    # Desktop Rating
                     current_rating = movie.get("rating", 0)
                     new_stars = st.feedback("stars", key=f"desktop_stars_{idx}")
 
@@ -301,12 +365,27 @@ with tab_library:
                         'rating') else "⏳ Not Rated yet"
                     st.write(f"{watched_status} | {rating_text}")
 
-                    btn_label = "Mark Unwatched" if movie.get("watched") else "Mark Watched"
-                    if st.button(btn_label, key=f"desktop_toggle_{idx}", use_container_width=True):
-                        movie['watched'] = not movie.get('watched', False)
-                        save_movies(movies)
-                        st.session_state.movies = movies
-                        st.rerun()
+                    # Split controls row to put the Trash Can cleanly on the right
+                    col_btn_status, col_btn_delete = st.columns([3, 1])
+
+                    with col_btn_status:
+                        btn_label = "Mark Unwatched" if movie.get("watched") else "Mark Watched"
+                        if st.button(btn_label, key=f"desktop_toggle_{idx}", use_container_width=True):
+                            movie['watched'] = not movie.get('watched', False)
+                            save_movies(movies)
+                            st.session_state.movies = movies
+                            st.rerun()
+
+                    with col_btn_delete:
+                        # Desktop delete action!
+                        if st.button("🗑️", key=f"desktop_delete_{idx}", use_container_width=True,
+                                     help="Delete from library"):
+                            movies.remove(movie)
+                            save_movies(movies)
+                            st.session_state.movies = movies
+                            st.toast(f"Removed '{movie['title']}' from library.")
+                            time.sleep(0.5)
+                            st.rerun()
 
                     st.markdown("---")
 
