@@ -97,7 +97,7 @@ with tab_picker:
                         st.session_state.movies = movies
                         st.rerun()
 
-# --- TAB 2: VISUAL LIBRARY (With Star Ratings & Broken Image Fix) ---
+# --- TAB 2: VISUAL LIBRARY (With Standardized Poster Heights) ---
 with tab_library:
     st.header("📚 Your Collection")
 
@@ -114,40 +114,52 @@ with tab_library:
         for idx, movie in enumerate(filtered_movies):
             col = cols[idx % 4]
             with col:
-                # --- POSTER FIX ---
-                # Check if we have a valid URL; if it's "N/A" or missing, use a beautiful SVG placeholder
+                # --- POSTER FIX & STANDARDIZATION ---
                 poster = movie.get("poster_url")
                 if not poster or poster == "N/A":
-                    # Cute, lightweight placeholder card so your UI doesn't look broken!
-                    poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"  # Cozy neon cinema placeholder
+                    # Cozy default background image
+                    poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
 
-                st.image(poster, use_container_width=True)
+                # Instead of st.image, we render with custom HTML to lock a 2:3 aspect ratio (e.g., 300px width x 450px height)
+                # This ensures absolute grid alignment and crops odd-sized posters flawlessly!
+                st.markdown(
+                    f"""
+                    <div style="
+                        width: 100%;
+                        height: 380px; 
+                        overflow: hidden;
+                        border-radius: 10px;
+                        margin-bottom: 10px;
+                    ">
+                        <img src="{poster}" style="
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            object-position: center;
+                        "/>
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 
                 # Title & Year
                 watched_status = "✅" if movie.get("watched") else "⏳"
                 st.markdown(f"**{movie['title']}** ({movie.get('year', 'N/A')})")
 
                 # --- INTERACTIVE STAR RATING ---
-                # Retrieve current rating. Streamlit's st.feedback needs 0-4 scale for 5 stars,
-                # or we can store 1-10 and map it. Let's do a simple 5-star feedback!
                 current_rating = movie.get("rating", 0)
 
-                # Map 1-10 ratings to 1-5 stars if you have old data, otherwise default to 0 stars
                 try:
                     initial_stars = int(current_rating // 2) if current_rating else 0
                 except (TypeError, ValueError):
                     initial_stars = 0
 
-                # Render the stars!
                 new_stars = st.feedback(
                     "stars",
                     key=f"stars_{idx}",
-                    # Default value has to be handled carefully:
                 )
 
-                # Update rating if they click a star
                 if new_stars is not None:
-                    # Convert 0-4 index from feedback to 1-5 scale (or multiply by 2 for your original /10 rating)
                     calculated_rating = (new_stars + 1) * 2
                     if movie.get("rating") != calculated_rating:
                         movie["rating"] = calculated_rating
