@@ -310,36 +310,82 @@ with tab_library:
 
                     st.markdown("---")
 
-# --- TAB 3: ADD MOVIE (Beautiful clean layouts) ---
+# --- TAB 3: ADD MOVIE (With Live Preview & Confirmation!) ---
 with tab_add:
     st.header("➕ Expand the Library")
+
+    # Initialize a temporary session state variable to store the searched movie
+    if "temp_movie" not in st.session_state:
+        st.session_state.temp_movie = None
 
     method = st.radio("How would you like to add it?", ["Automatic Lookup 🌐", "Manual Entry ✍️"], horizontal=True)
 
     if method == "Automatic Lookup 🌐":
+        # Text input and Search button
         title = st.text_input("Enter Movie Title to Search")
-        if st.button("Search & Add", use_container_width=True):
+
+        if st.button("Search Movie 🔍", use_container_width=True):
             if title:
                 with st.spinner("Searching OMDB..."):
-                    movie = get_movie_data(title)
+                    found_movie = get_movie_data(title)
 
-                if movie:
-                    # Avoid duplicates
-                    if any(m['title'].lower() == movie['title'].lower() for m in movies):
-                        st.warning(f"\"{movie['title']}\" is already in your list!")
+                if found_movie:
+                    # Quick duplicate check
+                    if any(m['title'].lower() == found_movie['title'].lower() for m in movies):
+                        st.warning(f"⚠️ \"{found_movie['title']}\" is already in your library!")
+                        st.session_state.temp_movie = None
                     else:
-                        movies.append(movie)
-                        save_movies(movies)
-                        st.session_state.movies = movies
-                        st.success(f"Added **{movie['title']}** to your list!")
-                        st.rerun()
+                        # Store in session state for confirmation step
+                        st.session_state.temp_movie = found_movie
                 else:
-                    st.error("Couldn't find that movie. Check the spelling or try manual entry.")
+                    st.error("❌ Couldn't find that movie. Check the spelling or try manual entry.")
+                    st.session_state.temp_movie = None
             else:
                 st.warning("Please enter a title first.")
 
+        # --- PREVIEW & CONFIRMATION STEP ---
+        # If we have a movie waiting in temp storage, show the preview!
+        if st.session_state.temp_movie:
+            temp = st.session_state.temp_movie
+
+            st.markdown("---")
+            st.subheader("🤔 Is this the right movie?")
+
+            col_img, col_info = st.columns([1, 2])
+            with col_img:
+                # Poster preview
+                poster = temp.get("poster_url")
+                if not poster or poster == "N/A":
+                    poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
+                st.image(poster, use_container_width=True)
+
+            with col_info:
+                st.markdown(f"### **{temp['title']}** ({temp.get('year', 'N/A')})")
+                st.markdown(f"**Genre:** {temp.get('genre', 'Unknown')}")
+                st.markdown(f"**Runtime:** {temp.get('runtime', 'N/A')} mins")
+                st.markdown(f"**IMDb Rating:** ⭐ {temp.get('imdb_rating', 'N/A')}/10")
+                if temp.get("plot"):
+                    st.write(f"*\"{temp['plot']}\"*")
+
+                # Yes/No Confirmation Buttons
+                st.write("")  # Spacing
+                col_yes, col_no = st.columns(2)
+                with col_yes:
+                    # Using type="primary" colors this button specifically so it stands out!
+                    if st.button("✅ Yes, Add to Library!", type="primary", use_container_width=True):
+                        movies.append(temp)
+                        save_movies(movies)
+                        st.session_state.movies = movies  # Sync main state
+                        st.session_state.temp_movie = None  # Clear preview
+                        st.success(f"Successfully added **{temp['title']}**!")
+                        st.rerun()
+                with col_no:
+                    if st.button("❌ No, Cancel Search", use_container_width=True):
+                        st.session_state.temp_movie = None  # Clear preview
+                        st.rerun()
+
     else:
-        # Side-by-side columns look much better for manual entry forms
+        # Manual Entry Form
         with st.form("manual_entry_form"):
             col_a, col_b = st.columns(2)
             with col_a:
@@ -349,11 +395,9 @@ with tab_add:
                 manual_year = st.number_input("Year", min_value=1900, max_value=2030, value=2026)
                 manual_runtime = st.number_input("Runtime (Minutes)", min_value=1, value=120)
 
-            submitted = st.form_submit_button("Add Movie manually", use_container_width=True)
-            # Inside your Manual Entry form submission block in app.py:
+            submitted = st.form_submit_button("Add Movie Manually", use_container_width=True)
             if submitted:
                 if manual_title:
-                    # One clean function call does it all now!
                     movie = create_movie(
                         title=manual_title,
                         genre=manual_genre,
