@@ -5,7 +5,10 @@
         "runtime": 117,
         "year": 2006,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTg5NzY0MzA2MV5BMl5BanBnXkFtZTYwNDc3NTc2._V1_SX300.jpg",
+        "plot": "On the way to the biggest race of his life, a hotshot rookie race car gets stranded in a rundown town and learns that winning isn't everything in life.",
+        "imdb_rating": 7.3
     },
     {
         "title": "Cars 2",
@@ -13,7 +16,10 @@
         "runtime": 106,
         "year": 2011,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTUzNTc3MTU3M15BMl5BanBnXkFtZTcwMzIxNTc3NA@@._V1_SX300.jpg",
+        "plot": "Star race car Lightning McQueen and his pal Mater head overseas to compete in the World Grand Prix race. But the road to the championship becomes rocky as Mater gets caught up in an intriguing adventure of his own: international e...",
+        "imdb_rating": 6.2
     },
     {
         "title": "Interstellar",
@@ -21,7 +27,10 @@
         "runtime": 169,
         "year": 2014,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BYzdjMDAxZGItMjI2My00ODA1LTlkNzItOWFjMDU5ZDJlYWY3XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+        "plot": "When Earth becomes uninhabitable in the future, a farmer and ex-NASA pilot, Joseph Cooper, is tasked to pilot a spacecraft, along with a team of researchers, to find a new planet for humans.",
+        "imdb_rating": 8.7
     },
     {
         "title": "My Fault: London",
@@ -29,7 +38,10 @@
         "runtime": 119,
         "year": 2025,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BN2MzOTJiOTItODBjOS00MjVhLWFiOWQtOTVjOTAyM2NkODM2XkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "An 18-year-old girl moves from America to London with her mother and wealthy stepfather. When she meets her stepbrother, an attraction sparks despite their efforts. Her estranged father also tracks her down after his release from ...",
+        "imdb_rating": 6.2
     },
     {
         "title": "Purple Hearts",
@@ -37,7 +49,10 @@
         "runtime": 122,
         "year": 2022,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BNmQ4NzU3MTktZTYzOC00OWU4LWI2MWUtYWViYjI3MTc0YTRhXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "In spite of their many differences, Cassie, a struggling singer-songwriter, and Luke, a troubled Marine, agree to marry solely for military benefits, but when tragedy strikes, the line between real and pretend begins to blur.",
+        "imdb_rating": 6.7
     },
     {
         "title": "Back to the Future",
@@ -45,7 +60,10 @@
         "runtime": 116,
         "year": 1985,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BZmM3ZjE0NzctNjBiOC00MDZmLTgzMTUtNGVlOWFlOTNiZDJiXkEyXkFqcGc@._V1_QL75_UX380_CR0,14,380,562_.jpg",
+        "plot": "Marty McFly, a 17-year-old high school student, is accidentally sent 30 years into the past in a time-traveling DeLorean invented by his close friend, the maverick scientist Doc Brown.",
+        "imdb_rating": 8.5
     },
     {
         "title": "The Hunger Games: Catching Fire",
@@ -53,7 +71,10 @@
         "runtime": 146,
         "year": 2013,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTAyMjQ3OTAxMzNeQTJeQWpwZ15BbWU4MDU0NzA1MzAx._V1_SX300.jpg",
+        "plot": "Katniss Everdeen and Peeta Mellark become targets of the Capitol after their victory in the 74th Hunger Games sparks a rebellion in the Districts of Panem.",
+        "imdb_rating": 7.5
     },
     {
         "title": "Star Wars: Episode IV - A New Hope",
@@ -61,7 +82,10 @@
         "runtime": 121,
         "year": 1977,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BOGUwMDk0Y2MtNjBlNi00NmRiLTk2MWYtMGMyMDlhYmI4ZDBjXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "Luke Skywalker joins forces with a Jedi Knight, a cocky pilot, a Wookiee and two droids to save the galaxy from the Empire's world-destroying battle station, while also attempting to rescue Princess Leia from the mysterious Darth ...",
+        "imdb_rating": 8.6
     },
     {
         "title": "Mamma Mia!",
@@ -69,7 +93,10 @@
         "runtime": 108,
         "year": 2008,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTA2MDU0MjM0MzReQTJeQWpwZ15BbWU3MDYwNzgwNzE@._V1_SX300.jpg",
+        "plot": "Independent hotelier Donna is preparing for her daughter's wedding with the help of two old friends. Meanwhile, spirited bride-to-be Sophie invites three men from her mother's past in order to discern which is her biological father.",
+        "imdb_rating": 6.5
     },
     {
         "title": "Tag",
@@ -77,7 +104,10 @@
         "runtime": 100,
         "year": 2018,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BM2VhYTg4M2MtMWJiNS00ZTExLWI4MTMtNjE1NTQ1ODA0MTJjXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "A small group of former classmates organize an elaborate, annual game of tag that requires some to travel all over the country.",
+        "imdb_rating": 6.5
     },
     {
         "title": "Greatest Days",
@@ -85,7 +115,10 @@
         "runtime": 112,
         "year": 2023,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BZDYwYTZhY2QtN2Y4YS00NTIzLWExY2YtYjllYTE0MDFhYjBiXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "A feature adaptation of the 'The Band' musical, featuring the songs of Take That.",
+        "imdb_rating": 5.7
     },
     {
         "title": "Spider-Man",
@@ -93,7 +126,10 @@
         "runtime": 121,
         "year": 2002,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BZWM0OWVmNTEtNWVkOS00MzgyLTkyMzgtMmE2ZTZiNjY4MmFiXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "After being bitten by a genetically-modified spider, a shy teenager gains spider-like abilities that he uses to fight injustice as a masked superhero and face a vengeful enemy.",
+        "imdb_rating": 7.4
     },
     {
         "title": "Spider-Man 2",
@@ -101,7 +137,10 @@
         "runtime": 127,
         "year": 2004,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BNGQ0YTQyYTgtNWI2YS00NTE2LWJmNDItNTFlMTUwNmFlZTM0XkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "Peter Parker is beset with troubles in his failing personal life as he battles a former brilliant scientist named Otto Octavius.",
+        "imdb_rating": 7.5
     },
     {
         "title": "Spider-Man 3",
@@ -109,7 +148,10 @@
         "runtime": 139,
         "year": 2007,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BODE2NzNhMDctYjUzMC00Y2M5LWI2Y2EtODJkZTFjN2Y5ODlmXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "A strange black entity from another world bonds with Peter Parker and causes inner turmoil as he contends with new villains, temptations, and revenge.",
+        "imdb_rating": 6.3
     },
     {
         "title": "The Amazing Spider-Man",
@@ -117,7 +159,10 @@
         "runtime": 136,
         "year": 2012,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMjMyOTM4MDMxNV5BMl5BanBnXkFtZTcwNjIyNzExOA@@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+        "plot": "After Peter Parker is bitten by a genetically altered spider, he gains newfound, spider-like powers and ventures out to save the city from the machinations of a mysterious reptilian foe.",
+        "imdb_rating": 6.9
     },
     {
         "title": "The Amazing Spider-Man 2",
@@ -125,7 +170,10 @@
         "runtime": 142,
         "year": 2014,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BOTA5NDYxNTg0OV5BMl5BanBnXkFtZTgwODE5NzU1MTE@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+        "plot": "When New York is put under siege by Oscorp, it is up to Spider-Man to save the city he swore to protect as well as his loved ones.",
+        "imdb_rating": 6.6
     },
     {
         "title": "Spider-Man: Homecoming",
@@ -133,7 +181,10 @@
         "runtime": 133,
         "year": 2017,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BODY2MTAzOTQ4M15BMl5BanBnXkFtZTgwNzg5MTE0MjI@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+        "plot": "Peter Parker tries to stop Adrian 'The Vulture' Toomes from selling weapons made with advanced Chitauri technology while trying to balance his life as an ordinary high school student.",
+        "imdb_rating": 7.4
     },
     {
         "title": "Spider-Man: Far From Home",
@@ -141,7 +192,10 @@
         "runtime": 129,
         "year": 2019,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMzNhNTE0NWQtN2E1Ny00NjcwLTg1YTctMGY1NmMwODJmY2NmXkEyXkFqcGc@._V1_QL75_UX380_CR0,1,380,562_.jpg",
+        "plot": "Peter Parker, the beloved superhero Spider-Man, faces four destructive elemental monsters while on holiday in Europe. Soon, he receives help from Mysterio, a fellow hero with mysterious origins.",
+        "imdb_rating": 7.3
     },
     {
         "title": "Spider-Man: No Way Home",
@@ -149,7 +203,10 @@
         "runtime": 148,
         "year": 2021,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMmFiZGZjMmEtMTA0Ni00MzA2LTljMTYtZGI2MGJmZWYzZTQ2XkEyXkFqcGc@._V1_QL75_UX380_CR0,4,380,562_.jpg",
+        "plot": "With Spider-Man's identity now revealed, Peter asks Doctor Strange for help. When a spell goes wrong, dangerous foes from other worlds start to appear.",
+        "imdb_rating": 8.1
     },
     {
         "title": "Rogue One: A Star Wars Story",
@@ -157,7 +214,10 @@
         "runtime": 133,
         "year": 2016,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMjEwMzMxODIzOV5BMl5BanBnXkFtZTgwNzg3OTAzMDI@._V1_SX300.jpg",
+        "plot": "In a time of conflict, a group of unlikely heroes band together on a mission to steal the plans to the Death Star, the Empire's ultimate weapon of destruction.",
+        "imdb_rating": 7.8
     },
     {
         "title": "The Lego Movie",
@@ -165,7 +225,10 @@
         "runtime": 100,
         "year": 2014,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTg4MDk1ODExN15BMl5BanBnXkFtZTgwNzIyNjg3MDE@._V1_SX300.jpg",
+        "plot": "An ordinary LEGO construction worker, thought to be the prophesied as \"special\", is recruited to join a quest to stop an evil tyrant from gluing the LEGO universe into eternal stasis.",
+        "imdb_rating": 7.7
     },
     {
         "title": "The Lego Batman Movie",
@@ -173,7 +236,10 @@
         "runtime": 104,
         "year": 2017,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTcyNTEyOTY0M15BMl5BanBnXkFtZTgwOTAyNzU3MDI@._V1_SX300.jpg",
+        "plot": "A cooler-than-ever Bruce Wayne must deal with the usual suspects as they plan to rule Gotham City, while discovering that he has accidentally adopted a teenage orphan who wishes to become his sidekick.",
+        "imdb_rating": 7.3
     },
     {
         "title": "Dune",
@@ -181,7 +247,10 @@
         "runtime": 155,
         "year": 2021,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMGJlMGM3NDAtOWNhMy00MWExLWI2MzEtMDQ0ZDIzZDY5ZmQ2XkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "A Duke's son leads desert warriors against the galactic emperor and his father's evil nemesis to free their desert world from the emperor's rule.",
+        "imdb_rating": 6.3
     },
     {
         "title": "The Truman Show",
@@ -189,7 +258,10 @@
         "runtime": 103,
         "year": 1998,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BNzA3ZjZlNzYtMTdjMy00NjMzLTk5ZGYtMTkyYzNiOGM1YmM3XkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "An insurance salesman begins to suspect that his whole life is actually some sort of reality TV show.",
+        "imdb_rating": 8.2
     },
     {
         "title": "The Dark Knight",
@@ -197,7 +269,10 @@
         "runtime": 152,
         "year": 2008,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+        "plot": "When a menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman, James Gordon and Harvey Dent must work together to put an end to the madness.",
+        "imdb_rating": 9.1
     },
     {
         "title": "Kung Fu Panda",
@@ -205,7 +280,10 @@
         "runtime": 92,
         "year": 2008,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BZDU5MDNiMGItYjVmZi00NDUxLTg2OTktNGE0NzNlNzM4NzgyXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "To everyone's surprise, including his own, Po, an overweight, clumsy panda, is chosen as protector of the Valley of Peace. His suitability will soon be tested as the valley's arch-enemy is on his way.",
+        "imdb_rating": 7.6
     },
     {
         "title": "Kung Fu Panda 2",
@@ -213,7 +291,10 @@
         "runtime": 90,
         "year": 2011,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BYmIxMGYzMTUtZDQzYy00ODc4LWE1YzQtZGMwYTc0YTYyYTE0XkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "Po and his friends fight to stop a peacock villain from conquering China with a deadly new weapon, but first the Dragon Warrior must come to terms with his past.",
+        "imdb_rating": 7.3
     },
     {
         "title": "Kung Fu Panda 3",
@@ -221,7 +302,10 @@
         "runtime": 95,
         "year": 2016,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTUyNzgxNjg2M15BMl5BanBnXkFtZTgwMTY1NDI1NjE@._V1_SX300.jpg",
+        "plot": "Continuing his \"legendary adventures of awesomeness\", Po must face two hugely epic, but different threats: one supernatural and the other a little closer to home.",
+        "imdb_rating": 7.1
     },
     {
         "title": "Ford v Ferrari",
@@ -229,7 +313,10 @@
         "runtime": 152,
         "year": 2019,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BOTBjNTEyNjYtYjdkNi00YzE5LTljYzUtZjVlYmYwZmJmZWYxXkEyXkFqcGc@._V1_SX300.jpg",
+        "plot": "American car designer Carroll Shelby and driver Ken Miles battle corporate interference and the laws of physics to build a revolutionary race car for Ford in order to defeat Ferrari at the 24 Hours of Le Mans in 1966.",
+        "imdb_rating": 8.1
     },
     {
         "title": "F1: The Movie",
@@ -237,7 +324,10 @@
         "runtime": 156,
         "year": 2025,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BNGI0MDI4NjEtOWU3ZS00ODQyLWFhYTgtNGYxM2ZkM2Q2YjE3XkEyXkFqcGc@._V1_QL75_UX380_CR0,0,380,562_.jpg",
+        "plot": "A Formula One driver comes out of retirement to mentor and team up with a younger driver.",
+        "imdb_rating": 7.6
     },
     {
         "title": "Cars 3",
@@ -246,6 +336,8 @@
         "year": 2017,
         "imdb_rating": 6.7,
         "watched": false,
-        "rating": null
+        "rating": null,
+        "poster_url": "https://m.media-amazon.com/images/M/MV5BMTc0NzU2OTYyN15BMl5BanBnXkFtZTgwMTkwOTg2MTI@._V1_SX300.jpg",
+        "plot": "Lightning McQueen sets out to prove to a new generation of racers that he's still the best race car in the world."
     }
 ]
