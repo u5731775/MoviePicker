@@ -210,13 +210,16 @@ with tab_add:
                 manual_runtime = st.number_input("Runtime (Minutes)", min_value=1, value=120)
 
             submitted = st.form_submit_button("Add Movie manually", use_container_width=True)
+            # Inside your Manual Entry form submission block in app.py:
             if submitted:
                 if manual_title:
-                    movie = create_movie(manual_title, manual_genre, manual_runtime, manual_year)
-                    # Initialize default values that manual entry misses
-                    movie["watched"] = False
-                    movie["rating"] = None
-                    movie["poster_url"] = None
+                    # One clean function call does it all now!
+                    movie = create_movie(
+                        title=manual_title,
+                        genre=manual_genre,
+                        runtime=manual_runtime,
+                        year=manual_year
+                    )
 
                     movies.append(movie)
                     save_movies(movies)
