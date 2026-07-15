@@ -66,7 +66,7 @@ with tab_picker:
             st.warning("No movies match your criteria! Try adding some more first.")
         else:
             # Create a fun "roulette" suspense effect
-            with st.spinner("Consulting the movie gods..."):
+            with st.spinner("Consulting the movie spirits..."):
                 time.sleep(1.5)  # The suspense builds!
 
             chosen_movie = pick_random_movie(pool)
