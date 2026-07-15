@@ -97,7 +97,7 @@ with tab_picker:
                         st.session_state.movies = movies
                         st.rerun()
 
-# --- TAB 2: VISUAL LIBRARY (Toggleable Phone Mode!) ---
+# --- TAB 2: VISUAL LIBRARY (With 3D Flip Cards for Plots!) ---
 with tab_library:
     st.header("📚 Your Collection")
 
@@ -106,7 +106,6 @@ with tab_library:
     with col_header1:
         search_query = st.text_input("🔍 Search movies...", "").lower()
     with col_header2:
-        # A cute toggle to switch layouts!
         phone_mode = st.toggle("📱 Phone Mode", value=False)
 
     filtered_movies = [m for m in movies if search_query in m['title'].lower()]
@@ -114,52 +113,78 @@ with tab_library:
     if not filtered_movies:
         st.info("No movies found in your library.")
     else:
+        # --- Injecting the Global 3D Flip Card CSS ---
+        st.markdown(
+            """
+            <style>
+            /* 3D Card Setup */
+            .flip-card {
+                background-color: transparent;
+                perspective: 1000px; /* Gives the 3D depth effect */
+            }
+            .flip-card-inner {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                text-align: center;
+                transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+                transform-style: preserve-3d;
+            }
+            /* Flip trigger: hover on desktop, tap (focus/active) on mobile */
+            .flip-card:hover .flip-card-inner, 
+            .flip-card:active .flip-card-inner,
+            .flip-card:focus .flip-card-inner {
+                transform: rotateY(180deg);
+            }
+            .flip-card-front, .flip-card-back {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                -webkit-backface-visibility: hidden; /* Hide the reverse side during flip */
+                backface-visibility: hidden;
+                border-radius: 12px;
+                overflow: hidden;
+            }
+            .flip-card-front img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+            /* Styling the Back of the Card (Plot View) */
+            .flip-card-back {
+                background-color: #1a1a1a;
+                color: #f0f0f0;
+                transform: rotateY(180deg);
+                padding: 14px;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                align-items: center;
+                border: 1px solid #333;
+                box-sizing: border-box;
+            }
+
+            /* Responsive Grid Configurations */
+            .movie-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
+                width: 100%;
+            }
+            @media (max-width: 600px) {
+                .movie-grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    gap: 10px;
+                }
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
+
         # --- PHONE MODE LAYOUT ---
         if phone_mode:
-            # Inject CSS to make the grid side-by-side on mobile
-            st.markdown(
-                """
-                <style>
-                .movie-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                    gap: 12px;
-                    width: 100%;
-                }
-                .movie-card {
-                    background-color: #1e1e1e;
-                    border-radius: 12px;
-                    padding: 10px;
-                    display: flex;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-                }
-                .poster-container {
-                    width: 100%;
-                    aspect-ratio: 2 / 3;
-                    overflow: hidden;
-                    border-radius: 8px;
-                    margin-bottom: 8px;
-                }
-                .poster-container img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: center;
-                }
-                @media (max-width: 600px) {
-                    .movie-grid {
-                        grid-template-columns: repeat(2, 1fr) !important;
-                        gap: 10px;
-                    }
-                }
-                </style>
-                """,
-                unsafe_allow_html=True
-            )
-
-            # Build mobile-friendly HTML string without markdown-breaking indentation
             cards = []
             for idx, movie in enumerate(filtered_movies):
                 poster = movie.get("poster_url")
@@ -167,12 +192,20 @@ with tab_library:
                     poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
 
                 watched_status = "✅" if movie.get("watched") else "⏳"
+                plot_snippet = movie.get("plot", "No plot summary available.") or "No plot summary available."
+                imdb = f"⭐ {movie.get('imdb_rating', 'N/A')}" if movie.get('imdb_rating') else "⭐ N/A"
 
+                # Mobile-sized HTML string with flip card logic
                 card_html = (
-                    f'<div class="movie-card">'
-                    f'<div class="poster-container"><img src="{poster}"/></div>'
-                    f'<div style="font-size:0.9rem; font-weight:bold; margin-bottom:4px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{movie["title"]}</div>'
-                    f'<div style="font-size:0.75rem; color:#888;">{movie.get("year", "N/A")} | {watched_status}</div>'
+                    f'<div class="flip-card" style="width:100%; height:240px;" tabindex="0">'  # tabindex makes tap-to-flip work on phones
+                    f'<div class="flip-card-inner">'
+                    f'<div class="flip-card-front"><img src="{poster}"/></div>'
+                    f'<div class="flip-card-back">'
+                    f'<div style="font-size:0.8rem; font-weight:bold; margin-bottom:4px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">{movie["title"]}</div>'
+                    f'<div style="font-size:0.65rem; color:#888; margin-bottom:6px;">{imdb} | {movie.get("year", "N/A")}</div>'
+                    f'<p style="font-size:0.65rem; line-height:1.2; text-align:left; display:-webkit-box; -webkit-line-clamp:7; -webkit-box-orient:vertical; overflow:hidden; margin:0; color:#ccc;">{plot_snippet}</p>'
+                    f'</div>'
+                    f'</div>'
                     f'</div>'
                 )
                 cards.append(card_html)
@@ -180,7 +213,7 @@ with tab_library:
             grid_html = f'<div class="movie-grid">{"".join(cards)}</div>'
             st.write(grid_html, unsafe_allow_html=True)
 
-            # Action Drawer for Phone Mode (keeps the layout completely uncluttered!)
+            # Action Drawer for Phone Mode
             st.markdown("---")
             st.subheader("⚙️ Quick Manager")
             selected_title = st.selectbox("Choose a movie to update:", [m['title'] for m in filtered_movies])
@@ -211,31 +244,48 @@ with tab_library:
             for idx, movie in enumerate(filtered_movies):
                 col = cols[idx % 4]
                 with col:
-                    # Poster with consistent height
                     poster = movie.get("poster_url")
                     if not poster or poster == "N/A":
                         poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"
 
+                    plot_snippet = movie.get("plot", "No plot summary available.") or "No plot summary available."
+                    imdb = f"⭐ {movie.get('imdb_rating', 'N/A')}" if movie.get('imdb_rating') else "⭐ N/A"
+
+                    # 3D Flip Card Container for Desktop
                     st.markdown(
                         f"""
-                        <div style="width: 100%; height: 380px; overflow: hidden; border-radius: 10px; margin-bottom: 10px;">
-                            <img src="{poster}" style="width: 100%; height: 100%; object-fit: cover; object-position: center;"/>
+                        <div class="flip-card" style="width: 100%; height: 600px;" tabindex="0">
+                            <div class="flip-card-inner">
+                                <!-- Front Face (Poster) -->
+                                <div class="flip-card-front">
+                                    <img src="{poster}"/>
+                                </div>
+                                <!-- Back Face (Plot Details) -->
+                                <div class="flip-card-back">
+                                    <div style="font-size: 1.05rem; font-weight: bold; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                                        {movie['title']}
+                                    </div>
+                                    <div style="font-size: 0.8rem; color: #ffaa00; margin-bottom: 12px; font-weight: 600;">
+                                        {imdb} | {movie.get('year', 'N/A')}
+                                    </div>
+                                    <p style="font-size: 0.8rem; line-height: 1.4; text-align: left; display: -webkit-box; -webkit-line-clamp: 10; -webkit-box-orient: vertical; overflow: hidden; color: #ddd; margin: 0;">
+                                        {plot_snippet}
+                                    </p>
+                                    <div style="margin-top: auto; font-size: 0.75rem; color: #888; font-style: italic;">
+                                        Genre: {movie.get('genre', 'N/A')}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         """,
                         unsafe_allow_html=True
                     )
 
-                    # Title, Year, Watched badge
+                    # Desktop Controls (rendered safely below the 3D card)
                     watched_status = "✅" if movie.get("watched") else "⏳"
                     st.markdown(f"**{movie['title']}** ({movie.get('year', 'N/A')})")
 
-                    # Interactive Desktop Star Rating
                     current_rating = movie.get("rating", 0)
-                    try:
-                        initial_stars = int(current_rating // 2) if current_rating else 0
-                    except (TypeError, ValueError):
-                        initial_stars = 0
-
                     new_stars = st.feedback("stars", key=f"desktop_stars_{idx}")
 
                     if new_stars is not None:
@@ -251,7 +301,6 @@ with tab_library:
                         'rating') else "⏳ Not Rated yet"
                     st.write(f"{watched_status} | {rating_text}")
 
-                    # Desktop Toggle Button
                     btn_label = "Mark Unwatched" if movie.get("watched") else "Mark Watched"
                     if st.button(btn_label, key=f"desktop_toggle_{idx}", use_container_width=True):
                         movie['watched'] = not movie.get('watched', False)
