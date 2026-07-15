@@ -97,7 +97,7 @@ with tab_picker:
                         st.session_state.movies = movies
                         st.rerun()
 
-# --- TAB 2: VISUAL LIBRARY (Grid instead of simple list) ---
+# --- TAB 2: VISUAL LIBRARY (With Star Ratings & Broken Image Fix) ---
 with tab_library:
     st.header("📚 Your Collection")
 
@@ -114,24 +114,60 @@ with tab_library:
         for idx, movie in enumerate(filtered_movies):
             col = cols[idx % 4]
             with col:
-                poster = movie.get("poster_url") or "https://via.placeholder.com/300x450?text=Movie"
+                # --- POSTER FIX ---
+                # Check if we have a valid URL; if it's "N/A" or missing, use a beautiful SVG placeholder
+                poster = movie.get("poster_url")
+                if not poster or poster == "N/A":
+                    # Cute, lightweight placeholder card so your UI doesn't look broken!
+                    poster = "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&q=80"  # Cozy neon cinema placeholder
+
                 st.image(poster, use_container_width=True)
 
                 # Title & Year
                 watched_status = "✅" if movie.get("watched") else "⏳"
                 st.markdown(f"**{movie['title']}** ({movie.get('year', 'N/A')})")
 
-                # Show rating / Status
-                rating = f"⭐ {movie['rating']}/10" if movie.get('rating') else "Not Rated"
-                st.write(f"{watched_status} | {rating}")
+                # --- INTERACTIVE STAR RATING ---
+                # Retrieve current rating. Streamlit's st.feedback needs 0-4 scale for 5 stars,
+                # or we can store 1-10 and map it. Let's do a simple 5-star feedback!
+                current_rating = movie.get("rating", 0)
+
+                # Map 1-10 ratings to 1-5 stars if you have old data, otherwise default to 0 stars
+                try:
+                    initial_stars = int(current_rating // 2) if current_rating else 0
+                except (TypeError, ValueError):
+                    initial_stars = 0
+
+                # Render the stars!
+                new_stars = st.feedback(
+                    "stars",
+                    key=f"stars_{idx}",
+                    # Default value has to be handled carefully:
+                )
+
+                # Update rating if they click a star
+                if new_stars is not None:
+                    # Convert 0-4 index from feedback to 1-5 scale (or multiply by 2 for your original /10 rating)
+                    calculated_rating = (new_stars + 1) * 2
+                    if movie.get("rating") != calculated_rating:
+                        movie["rating"] = calculated_rating
+                        save_movies(movies)
+                        st.session_state.movies = movies
+                        st.success(f"Rated {movie['title']} a {calculated_rating}/10!")
+                        st.rerun()
+
+                # Show text rating below the stars
+                rating_text = f"⭐ {movie.get('rating', 'Not Rated')}/10" if movie.get('rating') else "⏳ Not Rated yet"
+                st.write(f"{watched_status} | {rating_text}")
 
                 # Quick toggle status button
                 btn_label = "Mark Unwatched" if movie.get("watched") else "Mark Watched"
-                if st.button(btn_label, key=f"toggle_{idx}"):
+                if st.button(btn_label, key=f"toggle_{idx}", use_container_width=True):
                     movie['watched'] = not movie.get('watched', False)
                     save_movies(movies)
                     st.session_state.movies = movies
                     st.rerun()
+
                 st.markdown("---")
 
 # --- TAB 3: ADD MOVIE (Beautiful clean layouts) ---
